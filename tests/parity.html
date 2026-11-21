@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RIFT/16 — real-time/offline parity</title>
+  <style>
+    :root { color-scheme: dark; font-family: Consolas, monospace; background: #141510; color: #ecebdf; }
+    body { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+    h1 { color: #efba67; font-size: 22px; }
+    p, li { color: #b5b7aa; line-height: 1.55; }
+    button, a { display: inline-block; margin: 10px 12px 10px 0; padding: 11px 16px; border: 1px solid #efba67; border-radius: 4px; color: #211b11; background: #efba67; font: inherit; text-decoration: none; cursor: pointer; }
+    button:disabled { opacity: .55; cursor: wait; }
+    a { color: #ecebdf; background: #24251f; border-color: #55594b; }
+    pre { overflow: auto; max-height: 70vh; padding: 16px; border: 1px solid #383a31; background: #1d1e19; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .pass { color: #70d6cb; }
+    .fail { color: #ef806d; }
+  </style>
+</head>
+<body>
+  <h1>RIFT/16 real-time ↔ offline parity</h1>
+  <p>This diagnostic renders the default project twice at the AudioContext’s actual sample rate:</p>
+  <ol>
+    <li>The production <code>/audio-worklet.js</code> processor plays in real time and captures its exact Float32 output.</li>
+    <li>The production <code>/src/export-worker.js</code> Worker renders the same state and transfers its actual WAV.</li>
+  </ol>
+  <p>Four bars are bounded to the same 64 steps in both engines. The monitor gain is zero only to keep the check quiet; the production node still runs and is captured before that gain. Float samples are compared by their 32-bit patterns, then real-time, direct-offline and Worker WAVs are compared byte-for-byte.</p>
+  <button id="run" type="button">Run real-time parity</button>
+  <a id="download" hidden>Download JSON evidence</a>
+  <p id="status" role="status">Ready. Click Run to unlock audio and begin.</p>
+  <pre id="output">No result yet.</pre>
+  <script src="/src/dsp-core.cjs"></script>
+  <script type="module" src="/tests/parity.js"></script>
+</body>
+</html>

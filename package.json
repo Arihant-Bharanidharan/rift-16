@@ -1,0 +1,15 @@
+{
+  "name": "rift-16",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A deterministic four-voice DSP groovebox with live AudioWorklet playback and offline WAV rendering.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "benchmark": "node tests/benchmark.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

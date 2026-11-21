@@ -1,0 +1,28 @@
+{
+  "pass": true,
+  "timestamp": "2026-11-21T12:34:45.592Z",
+  "methodology": "Direct CDP inspection of the separately launched, persistent visible Chrome session after an ignored-cache reload.",
+  "launcherPid": 11352,
+  "backgroundShell": "sh_1fddb6df7001JbhN22Cglr8YOC",
+  "debuggingPort": 9223,
+  "defaultStateExact": true,
+  "finalState": {
+    "url": "http://127.0.0.1:4173/",
+    "title": "RIFT/16 — DSP Groovebox",
+    "project": "Untitled signal",
+    "transport": "Stopped",
+    "position": "1.1",
+    "engine": "Audio idle",
+    "dialogsOpen": [],
+    "temporaryHooks": [],
+    "trackCount": 4,
+    "activeSteps": "28 / 64 active",
+    "storedState": "Exact match to parity default state",
+    "documentWidth": 1252,
+    "viewportWidth": 1267
+  },
+  "consoleErrors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "screenshot": "artifacts/final-visible.png"
+}

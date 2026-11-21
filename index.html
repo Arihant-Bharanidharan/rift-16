@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171814">
+  <meta name="description" content="RIFT/16 is a deterministic four-voice DSP groovebox with live AudioWorklet synthesis and offline WAV rendering.">
+  <title>RIFT/16 — DSP Groovebox</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='5' fill='%23141510'/%3E%3Cpath d='M4 6h9v28H4zM16 6h7v12h-7zM16 22h7v12h-7zM27 6h9v28h-9z' fill='%23efba67'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand" aria-label="RIFT 16 DSP groovebox">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M4 6h9v28H4zM16 6h7v12h-7zM16 22h7v12h-7zM27 6h9v28h-9z" fill="currentColor"/>
+          <path d="m14 18 5-4 5 4-5 4z" fill="#171814"/>
+        </svg>
+        <div>
+          <div class="brand-name">RIFT<span>/16</span></div>
+          <div class="brand-subtitle">DSP groovebox</div>
+        </div>
+      </div>
+
+      <div class="project-field">
+        <label for="project-name">Project</label>
+        <input id="project-name" type="text" maxlength="80" autocomplete="off" spellcheck="false" value="Untitled signal">
+      </div>
+
+      <div class="header-status">
+        <span class="save-state" id="save-state" role="status">Saved locally</span>
+        <span class="engine-badge" id="engine-badge"><i></i> Audio idle</span>
+      </div>
+
+      <div class="header-actions">
+        <button class="button button-quiet" id="new-project" type="button">New</button>
+        <button class="button button-primary" id="open-export" type="button">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 13v4h14v-4"/></svg>
+          Export WAV
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="transport" aria-label="Transport and master controls">
+        <div class="transport-buttons">
+          <button class="transport-play" id="play-button" type="button" aria-label="Play pattern">
+            <svg id="play-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="m6 3 11 7-11 7z"/></svg>
+            <span id="play-label">Play</span>
+          </button>
+          <button class="transport-stop" id="stop-button" type="button" aria-label="Stop pattern" title="Stop and return to step 1">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5h10v10H5z"/></svg>
+          </button>
+        </div>
+
+        <div class="transport-position">
+          <strong id="transport-state">Stopped</strong>
+          <span><b id="position-value">1.1</b> beat.step</span>
+        </div>
+
+        <div class="tempo-control">
+          <label for="tempo">Tempo</label>
+          <div class="number-stepper">
+            <button id="tempo-down" type="button" aria-label="Decrease tempo">−</button>
+            <input id="tempo" type="number" min="60" max="180" step="1" value="124" inputmode="numeric">
+            <button id="tempo-up" type="button" aria-label="Increase tempo">+</button>
+          </div>
+          <span class="control-unit">BPM</span>
+        </div>
+
+        <div class="transport-range">
+          <div class="control-label"><label for="swing">Swing</label><output id="swing-value" for="swing">12%</output></div>
+          <input id="swing" type="range" min="0" max="0.45" step="0.01" value="0.12">
+        </div>
+
+        <div class="transport-range master-range">
+          <div class="control-label"><label for="master">Master</label><output id="master-value" for="master">78%</output></div>
+          <input id="master" type="range" min="0" max="1" step="0.01" value="0.78">
+        </div>
+
+        <div class="transport-hint"><kbd>Space</kbd><span>play / pause</span></div>
+      </section>
+
+      <div class="workspace">
+        <section class="sequencer-panel" aria-labelledby="pattern-heading">
+          <header class="panel-header pattern-header">
+            <div>
+              <h2 id="pattern-heading">Pattern</h2>
+              <p>One bar · four independent voices</p>
+            </div>
+            <div class="pattern-key"><span class="key-pad"></span> Velocity shown by pad height</div>
+          </header>
+
+          <div class="pattern-scroll">
+            <div class="pattern-grid" id="pattern-grid">
+              <div class="step-ruler">
+                <div class="track-spacer"><span>Voice</span><span>Step</span></div>
+                <div class="step-numbers" id="step-numbers"></div>
+              </div>
+              <div id="track-list"></div>
+            </div>
+          </div>
+
+          <footer class="pattern-footer">
+            <p>Click a pad to toggle it. Select any step to edit its pitch and velocity.</p>
+            <strong id="pattern-summary">0 / 64 active</strong>
+          </footer>
+        </section>
+
+        <aside class="inspector" aria-label="Track inspector">
+          <header class="inspector-header">
+            <div class="inspector-title">
+              <span class="track-color" id="inspector-color"></span>
+              <div><h2 id="inspector-track">Kick</h2><p id="inspector-engine">Pitch-swept sine / transient</p></div>
+            </div>
+            <button class="button button-small" id="audition-track" type="button">Audition</button>
+          </header>
+
+          <div class="inspector-tabs" role="tablist" aria-label="Inspector views">
+            <button id="tab-voice" role="tab" aria-selected="true" aria-controls="panel-voice" data-panel="voice" type="button">Voice</button>
+            <button id="tab-step" role="tab" aria-selected="false" aria-controls="panel-step" data-panel="step" type="button" tabindex="-1">Step</button>
+            <button id="tab-rhythm" role="tab" aria-selected="false" aria-controls="panel-rhythm" data-panel="rhythm" type="button" tabindex="-1">Rhythm</button>
+          </div>
+
+          <section class="inspector-panel" id="panel-voice" role="tabpanel" aria-labelledby="tab-voice">
+            <div class="parameter-list" id="voice-params"></div>
+            <div class="subsection-heading"><h3>Channel</h3><span>Post-voice</span></div>
+            <div class="parameter-list channel-params" id="channel-params"></div>
+          </section>
+
+          <section class="inspector-panel" id="panel-step" role="tabpanel" aria-labelledby="tab-step" hidden>
+            <div class="step-edit-heading">
+              <div><span id="step-track-name">Kick</span><strong id="step-edit-title">Step 01</strong></div>
+              <label class="toggle-control"><input id="step-enabled" type="checkbox"><span></span> Enabled</label>
+            </div>
+            <div class="parameter-list step-parameters">
+              <div class="parameter-row">
+                <div class="control-label"><label for="step-note">Pitch offset</label><output id="step-note-value" for="step-note">+0 st</output></div>
+                <input id="step-note" type="range" min="-24" max="24" step="1" value="0">
+                <div class="parameter-detail" id="step-note-detail">C2 fundamental</div>
+              </div>
+              <div class="parameter-row">
+                <div class="control-label"><label for="step-velocity">Velocity</label><output id="step-velocity-value" for="step-velocity">82%</output></div>
+                <input id="step-velocity" type="range" min="0.05" max="1" step="0.01" value="0.82">
+                <div class="parameter-detail">Controls envelope amplitude for this trigger.</div>
+              </div>
+            </div>
+            <button class="button button-wide" id="audition-step" type="button">Audition this step</button>
+            <p class="panel-note">Pitch and velocity are stored even when a step is disabled.</p>
+          </section>
+
+          <section class="inspector-panel" id="panel-rhythm" role="tabpanel" aria-labelledby="tab-rhythm" hidden>
+            <div class="rhythm-intro"><h3>Euclidean generator</h3><p>Distribute triggers as evenly as possible across 16 steps.</p></div>
+            <div class="parameter-list">
+              <div class="parameter-row">
+                <div class="control-label"><label for="euclid-hits">Triggers</label><output id="euclid-hits-value" for="euclid-hits">5 / 16</output></div>
+                <input id="euclid-hits" type="range" min="0" max="16" step="1" value="5">
+              </div>
+              <div class="parameter-row">
+                <div class="control-label"><label for="euclid-rotation">Rotation</label><output id="euclid-rotation-value" for="euclid-rotation">0 steps</output></div>
+                <input id="euclid-rotation" type="range" min="0" max="15" step="1" value="0">
+              </div>
+            </div>
+            <div class="euclid-preview" id="euclid-preview" aria-label="Generated rhythm preview"></div>
+            <button class="button button-primary button-wide" id="apply-euclid" type="button">Apply to selected voice</button>
+            <div class="rhythm-divider"></div>
+            <button class="button button-danger button-wide" id="clear-track" type="button">Clear selected voice</button>
+            <p class="panel-note">Applying a rhythm preserves each step’s pitch and velocity.</p>
+          </section>
+        </aside>
+      </div>
+
+      <div class="lower-grid">
+        <section class="analysis-panel" aria-labelledby="analysis-heading">
+          <header class="panel-header compact-header">
+            <div><h2 id="analysis-heading">Output</h2><p>Live post-master analysis</p></div>
+            <div class="analysis-readout"><span>Peak</span><strong id="peak-value">−∞ dB</strong></div>
+          </header>
+          <div class="visualizer-row">
+            <div class="scope-container">
+              <canvas id="scope-canvas" aria-label="Live output waveform"></canvas>
+              <span class="canvas-label">Waveform</span>
+            </div>
+            <div class="spectrum-container">
+              <canvas id="spectrum-canvas" aria-label="Live output spectrum"></canvas>
+              <span class="canvas-label">Spectrum</span>
+            </div>
+            <div class="stereo-meter" aria-label="Stereo output level">
+              <div class="meter-bars"><i id="meter-left"></i><i id="meter-right"></i></div>
+              <div><span>L</span><span>R</span></div>
+            </div>
+          </div>
+          <footer class="analysis-footer"><span id="sample-rate-value">Sample rate —</span><span>AudioWorklet · stereo</span></footer>
+        </section>
+
+        <section class="delay-panel" aria-labelledby="delay-heading">
+          <header class="panel-header compact-header"><div><h2 id="delay-heading">Cross delay</h2><p>Tempo-synced stereo feedback</p></div><span class="delay-route" aria-hidden="true">L ⇄ R</span></header>
+          <div class="parameter-list delay-params">
+            <div class="parameter-row">
+              <div class="control-label"><label for="delay-time">Time</label><output id="delay-time-value" for="delay-time">0.75 beats</output></div>
+              <input id="delay-time" type="range" min="0.25" max="1.5" step="0.25" value="0.75">
+              <div class="parameter-detail" id="delay-time-detail">363 ms at 124 BPM</div>
+            </div>
+            <div class="parameter-row">
+              <div class="control-label"><label for="delay-feedback">Feedback</label><output id="delay-feedback-value" for="delay-feedback">30%</output></div>
+              <input id="delay-feedback" type="range" min="0" max="0.75" step="0.01" value="0.3">
+            </div>
+            <div class="parameter-row">
+              <div class="control-label"><label for="delay-mix">Mix</label><output id="delay-mix-value" for="delay-mix">18%</output></div>
+              <input id="delay-mix" type="range" min="0" max="0.65" step="0.01" value="0.18">
+            </div>
+          </div>
+        </section>
+
+        <section class="keyboard-panel" aria-labelledby="keyboard-heading">
+          <header class="panel-header compact-header"><div><h2 id="keyboard-heading">Audition</h2><p id="keyboard-target">Kick · C2</p></div><span class="keyboard-hint">A–K</span></header>
+          <div class="keyboard" id="keyboard" aria-label="Chromatic audition keyboard"></div>
+          <p class="keyboard-help">Play the selected voice with your computer keyboard.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <span><i class="status-dot"></i><b id="footer-status">Ready</b> · one deterministic DSP core for live audio and WAV renders</span>
+      <span>Autosaved in this browser · <kbd>Ctrl</kbd> + <kbd>S</kbd> to save</span>
+    </footer>
+  </div>
+
+  <dialog class="modal export-modal" id="export-dialog" aria-labelledby="export-title">
+    <div class="modal-header"><div><h2 id="export-title">Render WAV</h2><p>16-bit stereo PCM · deterministic offline DSP</p></div><button class="icon-button" id="close-export" type="button" aria-label="Close export dialog">×</button></div>
+    <div class="export-options">
+      <label>Pattern length<select id="export-bars"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option><option value="16">16 bars</option></select></label>
+      <label>Sample rate<select id="export-sample-rate"><option value="44100" selected>44,100 Hz</option><option value="48000">48,000 Hz</option></select></label>
+    </div>
+    <div class="export-estimate"><span>Includes a signal-detected effect tail (up to 30 s)</span><strong id="export-estimate">Body 7.74 s · 2.7 MB + tail</strong></div>
+    <div class="render-progress" id="render-progress" hidden><div class="control-label"><span id="render-status">Rendering samples</span><output id="render-percent">0%</output></div><progress id="export-progress" max="1" value="0"></progress></div>
+    <div class="render-result" id="render-result" hidden>
+      <div><span>Duration</span><strong id="result-duration">—</strong></div><div><span>Peak</span><strong id="result-peak">—</strong></div><div><span>RMS</span><strong id="result-rms">—</strong></div><div><span>FNV-1a</span><strong id="result-checksum">—</strong></div>
+    </div>
+    <p class="export-error" id="export-error" role="alert" hidden></p>
+    <div class="modal-actions"><button class="button button-quiet" id="cancel-render" type="button" hidden>Cancel render</button><button class="button button-primary" id="render-wav" type="button">Render WAV</button><a class="button button-primary download-button" id="download-wav" hidden>Download WAV</a></div>
+    <p class="modal-note">The render repeats this one-bar pattern and captures the complete delay tail. Matching project settings produce byte-identical WAV files.</p>
+  </dialog>
+
+  <dialog class="modal new-modal" id="new-dialog" aria-labelledby="new-title">
+    <div class="modal-header"><div><h2 id="new-title">Start a new project?</h2><p>This replaces the current pattern and all voice settings.</p></div><button class="icon-button" id="close-new" type="button" aria-label="Close new project dialog">×</button></div>
+    <div class="modal-actions"><button class="button button-quiet" id="cancel-new" type="button">Keep editing</button><button class="button button-danger" id="confirm-new" type="button">New project</button></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/src/dsp-core.cjs"></script>
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>

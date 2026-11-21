@@ -1,0 +1,477 @@
+{
+  "pass": true,
+  "timestamp": "2026-11-19T04:31:39.928Z",
+  "methodology": "Production AudioWorklet real-time Float32 capture versus the same-state direct renderSong and actual export-worker WAV; four bars, identical stepLimit, no resampling.",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) OpenCode/2.3.2 Chrome/152.0.7977.167 Electron/44.9.1 Safari/537.36",
+  "sampleRate": 48000,
+  "requestedSampleRate": 48000,
+  "bars": 4,
+  "steps": 64,
+  "renderQuantumFrames": 128,
+  "contextBaseLatency": 0.01,
+  "contextOutputLatency": 0.032,
+  "frames": 545151,
+  "durationSeconds": 11.3573125,
+  "bodyFrames": 371615,
+  "tailFrames": 173536,
+  "tailTruncated": false,
+  "peak": 0.7743303775787354,
+  "rms": 0.14475310884230236,
+  "floatComparison": {
+    "realtimeVsOfflineLeft": {
+      "equal": true,
+      "frames": 545151,
+      "mismatches": 0,
+      "maxAbsoluteDifference": 0,
+      "firstMismatch": null
+    },
+    "realtimeVsOfflineRight": {
+      "equal": true,
+      "frames": 545151,
+      "mismatches": 0,
+      "maxAbsoluteDifference": 0,
+      "firstMismatch": null
+    }
+  },
+  "wavComparison": {
+    "realtimeVsWorker": {
+      "equal": true,
+      "expectedBytes": 2180648,
+      "actualBytes": 2180648,
+      "mismatches": 0,
+      "firstMismatch": null
+    },
+    "realtimeVsDirectOffline": {
+      "equal": true,
+      "expectedBytes": 2180648,
+      "actualBytes": 2180648,
+      "mismatches": 0,
+      "firstMismatch": null
+    },
+    "workerVsDirectOffline": {
+      "equal": true,
+      "expectedBytes": 2180648,
+      "actualBytes": 2180648,
+      "mismatches": 0,
+      "firstMismatch": null
+    }
+  },
+  "sha256": {
+    "realtimeLeftFloat32": "108c2f0ffcc1eae3441e23eb685224dbc364792f5374098f65b4105bc0f365d7",
+    "realtimeRightFloat32": "9ef361b235470c8059bb35399a54669d1afcda4451f8ea982399ca4c8dade936",
+    "offlineLeftFloat32": "108c2f0ffcc1eae3441e23eb685224dbc364792f5374098f65b4105bc0f365d7",
+    "offlineRightFloat32": "9ef361b235470c8059bb35399a54669d1afcda4451f8ea982399ca4c8dade936",
+    "realtimeWAV": "c9c9a4e3a7a5a179fc22d2a923ca0e5085f3009e9a72d0ca4323a596b82714ae",
+    "workerWAV": "c9c9a4e3a7a5a179fc22d2a923ca0e5085f3009e9a72d0ca4323a596b82714ae",
+    "directOfflineWAV": "c9c9a4e3a7a5a179fc22d2a923ca0e5085f3009e9a72d0ca4323a596b82714ae"
+  },
+  "workerMetrics": {
+    "duration": 11.3573125,
+    "bodyDuration": 7.741979166666667,
+    "frames": 545151,
+    "sampleRate": 48000,
+    "peak": 0.7743303775787354,
+    "rms": 0.14475310884230236,
+    "checksum": "06686526"
+  },
+  "computedWorkerFNV1a": "06686526",
+  "state": {
+    "version": 1,
+    "name": "Untitled signal",
+    "bpm": 124,
+    "swing": 0.12,
+    "master": 0.78,
+    "delay": {
+      "time": 0.75,
+      "feedback": 0.3,
+      "mix": 0.18
+    },
+    "tracks": [
+      {
+        "id": "kick",
+        "level": 0.9,
+        "pan": 0,
+        "send": 0.04,
+        "mute": false,
+        "solo": false,
+        "params": {
+          "tune": 0,
+          "decay": 0.42,
+          "drive": 0.28,
+          "click": 0.35
+        },
+        "steps": [
+          {
+            "active": true,
+            "velocity": 1,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.9,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.96,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.9,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.48,
+            "note": -5
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          }
+        ]
+      },
+      {
+        "id": "bass",
+        "level": 0.62,
+        "pan": 0,
+        "send": 0.1,
+        "mute": false,
+        "solo": false,
+        "params": {
+          "cutoff": 920,
+          "resonance": 4.2,
+          "decay": 0.34,
+          "drive": 0.18,
+          "sub": 0.35
+        },
+        "steps": [
+          {
+            "active": true,
+            "velocity": 0.9,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.66,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.78,
+            "note": 3
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.88,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.7,
+            "note": 7
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.74,
+            "note": 10
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          }
+        ]
+      },
+      {
+        "id": "glass",
+        "level": 0.42,
+        "pan": -0.08,
+        "send": 0.32,
+        "mute": false,
+        "solo": false,
+        "params": {
+          "decay": 0.9,
+          "modulation": 2.4,
+          "detune": 0.006,
+          "attack": 0.008
+        },
+        "steps": [
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.62,
+            "note": 12
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.44,
+            "note": 7
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.52,
+            "note": 3
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.68,
+            "note": 10
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.46,
+            "note": 15
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          }
+        ]
+      },
+      {
+        "id": "noise",
+        "level": 0.36,
+        "pan": 0.12,
+        "send": 0.18,
+        "mute": false,
+        "solo": false,
+        "params": {
+          "cutoff": 6200,
+          "decay": 0.12,
+          "tone": 0.34,
+          "drive": 0.08
+        },
+        "steps": [
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.34,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.7,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.22,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.34,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.7,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.22,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.34,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.7,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.22,
+            "note": 0
+          },
+          {
+            "active": false,
+            "velocity": 0.82,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.34,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.7,
+            "note": 0
+          },
+          {
+            "active": true,
+            "velocity": 0.22,
+            "note": 0
+          }
+        ]
+      }
+    ]
+  }
+}

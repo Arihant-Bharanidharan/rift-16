@@ -1,0 +1,193 @@
+{
+  "timestamp": "2026-11-19T04:30:32.684Z",
+  "methodology": {
+    "description": "Production Engine.renderBlock synthesis/mixing stress test with exact active voice counts. Voices are created by Engine.trigger and harvested before normal stealing, then assigned back to the engine. This deliberately bypasses the instrument’s per-track caps; 32 and 64 voices are stress loads, not sequencer-reachable polyphony.",
+    "sampleRate": 48000,
+    "quantumFrames": 128,
+    "runSeconds": 1,
+    "blocksPerRun": 375,
+    "repetitions": 7,
+    "warmupsPerVoiceCount": 2,
+    "runOrder": "Alternating ascending/descending voice counts",
+    "decay": "Maximum legal decay per voice; all voices remain active for the complete measured second.",
+    "delay": "Send, feedback and mix are zero; production delay-line and master processing still execute.",
+    "timer": "Node performance.now() around the complete renderBlock loop, including per-block checksum reads."
+  },
+  "host": {
+    "cpu": "11th Gen Intel(R) Core(TM) i5-11320H @ 3.20GHz",
+    "logicalCores": 8,
+    "memoryGiB": 15.784477233886719,
+    "platform": "win32",
+    "arch": "x64",
+    "node": "v22.4.0",
+    "v8": "12.4.254.21-node.15"
+  },
+  "quantumBudgetMs": 2.6666666666666665,
+  "results": [
+    {
+      "voiceCount": 16,
+      "voicesPerTrack": 4,
+      "runs": [
+        {
+          "repetition": 1,
+          "elapsedMs": 1593.1644000000015,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        },
+        {
+          "repetition": 2,
+          "elapsedMs": 1567.720699999998,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        },
+        {
+          "repetition": 3,
+          "elapsedMs": 1559.0887000000002,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        },
+        {
+          "repetition": 4,
+          "elapsedMs": 1567.585699999996,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        },
+        {
+          "repetition": 5,
+          "elapsedMs": 1566.9992000000057,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        },
+        {
+          "repetition": 6,
+          "elapsedMs": 1572.1628999999957,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        },
+        {
+          "repetition": 7,
+          "elapsedMs": 1557.0399999999936,
+          "finalVoiceCount": 16,
+          "checksum": -0.4082078061037464
+        }
+      ],
+      "medianElapsedMs": 1567.585699999996,
+      "minElapsedMs": 1557.0399999999936,
+      "maxElapsedMs": 1593.1644000000015,
+      "medianMicrosecondsPerQuantum": 4180.228533333323,
+      "medianRealtimeMargin": 0.6379236554658559,
+      "worstRealtimeMargin": 0.6276816127701568,
+      "medianCpuPercentOfOneCore": 156.7585699999996
+    },
+    {
+      "voiceCount": 32,
+      "voicesPerTrack": 8,
+      "runs": [
+        {
+          "repetition": 1,
+          "elapsedMs": 3150.9607000000033,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        },
+        {
+          "repetition": 2,
+          "elapsedMs": 3050.022600000004,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        },
+        {
+          "repetition": 3,
+          "elapsedMs": 3095.4968999999983,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        },
+        {
+          "repetition": 4,
+          "elapsedMs": 3067.9037000000026,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        },
+        {
+          "repetition": 5,
+          "elapsedMs": 3080.4509999999937,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        },
+        {
+          "repetition": 6,
+          "elapsedMs": 3097.001299999989,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        },
+        {
+          "repetition": 7,
+          "elapsedMs": 3090.1379999999917,
+          "finalVoiceCount": 32,
+          "checksum": -2.832144647021778
+        }
+      ],
+      "medianElapsedMs": 3090.1379999999917,
+      "minElapsedMs": 3050.022600000004,
+      "maxElapsedMs": 3150.9607000000033,
+      "medianMicrosecondsPerQuantum": 8240.367999999977,
+      "medianRealtimeMargin": 0.32361014297743423,
+      "worstRealtimeMargin": 0.3173635266222137,
+      "medianCpuPercentOfOneCore": 309.01379999999915
+    },
+    {
+      "voiceCount": 64,
+      "voicesPerTrack": 16,
+      "runs": [
+        {
+          "repetition": 1,
+          "elapsedMs": 6018.4951,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        },
+        {
+          "repetition": 2,
+          "elapsedMs": 6057.4280000000035,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        },
+        {
+          "repetition": 3,
+          "elapsedMs": 6035.751899999996,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        },
+        {
+          "repetition": 4,
+          "elapsedMs": 6044.1610999999975,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        },
+        {
+          "repetition": 5,
+          "elapsedMs": 6136.704599999997,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        },
+        {
+          "repetition": 6,
+          "elapsedMs": 6525.72129999999,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        },
+        {
+          "repetition": 7,
+          "elapsedMs": 6200.961199999991,
+          "finalVoiceCount": 64,
+          "checksum": -6.253324496326968
+        }
+      ],
+      "medianElapsedMs": 6057.4280000000035,
+      "minElapsedMs": 6018.4951,
+      "maxElapsedMs": 6525.72129999999,
+      "medianMicrosecondsPerQuantum": 16153.141333333344,
+      "medianRealtimeMargin": 0.16508656809457734,
+      "worstRealtimeMargin": 0.153239765234841,
+      "medianCpuPercentOfOneCore": 605.7428000000003
+    }
+  ]
+}
