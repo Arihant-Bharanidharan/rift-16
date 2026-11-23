@@ -2,6 +2,8 @@
 
 A deterministic, four-voice DSP groovebox for the browser. RIFT/16 combines a 16-step sequencer, synthesized drum and melodic voices, live AudioWorklet playback, and offline stereo WAV export—with no samples, soundfonts, third-party runtime code, or network audio dependencies.
 
+**[Open RIFT/16 live on Vercel](https://rift-16.vercel.app)**
+
 ![RIFT/16 groovebox interface](artifacts/final-visible.png)
 
 ## Features
